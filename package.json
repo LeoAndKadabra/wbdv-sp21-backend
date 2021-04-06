@@ -1,0 +1,22 @@
+{
+  "name": "wbdv-sp21-backend",
+  "version": "1.0.0",
+  "description": "Backend of team project at Northeastern Univeristy",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeoAndKadabra/wbdv-sp21-backend.git"
+  },
+  "author": "LeoAndKadabra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeoAndKadabra/wbdv-sp21-backend/issues"
+  },
+  "homepage": "https://github.com/LeoAndKadabra/wbdv-sp21-backend#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
