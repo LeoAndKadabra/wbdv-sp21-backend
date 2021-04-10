@@ -1,16 +1,32 @@
 const express = require("express");
 const app = express();
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 
 const userRoutes = require("./routes/user");
 const commentRoutes = require("./routes/comment");
 const movieRoutes = require("./routes/movie");
 
+const bodyParser = require('body-parser')
+
+
+mongoose.connect('mongodb://localhost:27017/movieSeeker', {useNewUrlParser: true, useUnifiedTopology: true})
+.then(() => {
+  console.log("CONNECTION OPEN")
+})
+.catch(err => {
+  console.log("CONNECTION ERROR");
+  console.log(err)
+});
+
 // server Apache console logger, will log basic information about requests
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(morgan('common'));
 app.use("/users", userRoutes);
 app.use("/comments", commentRoutes);
 app.use("/movies", movieRoutes);
+
 
 
 app.get("/", (req, res) => {
