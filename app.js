@@ -8,9 +8,12 @@ const commentRoutes = require("./routes/comment");
 const movieRoutes = require("./routes/movie");
 
 const bodyParser = require('body-parser')
+const methodOverride = require("method-override");
 
-
-mongoose.connect('mongodb://localhost:27017/movieSeeker', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect('mongodb://localhost:27017/movieSeeker', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
 .then(() => {
   console.log("CONNECTION OPEN")
 })
@@ -22,12 +25,12 @@ mongoose.connect('mongodb://localhost:27017/movieSeeker', {useNewUrlParser: true
 // server Apache console logger, will log basic information about requests
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(methodOverride("_method"));
+
 app.use(morgan('common'));
 app.use("/users", userRoutes);
 app.use("/comments", commentRoutes);
 app.use("/movies", movieRoutes);
-
-
 
 app.get("/", (req, res) => {
   res.send("You hit the general GET route!");

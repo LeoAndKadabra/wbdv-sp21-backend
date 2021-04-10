@@ -48,7 +48,6 @@ router.post("/:mid", (req, res) => {
     // res.status(200).json({reviews: movie.reviews});
     movie.save();
     res.status(200).json({reviews: movie.reviews});
-
   });
 });
 
