@@ -1,73 +1,73 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const passport = require("passport");
+const isLoggedIn = require("../middleware");
 
 const fakeAuthen = function(req, res, next) {
   console.log("during authentication");
   next();
 };
 
-// Create user
-router.post("/", fakeAuthen,(req, res) => {
-  const uid = req.body.username;
-  User.findById(uid).then((result) => {
-    if (result) {
-      res.status(409).json({message: "username existed1"});
-    } else {
-      const newUser = new User({
-        _id: uid,
-        email: req.body.email,
-        address: req.body.address
-      });
-      newUser.save();
-      res.status(201).json({user: newUser});
-    }
-  }).catch((e) => {
-    console.log(e);
-    res.status(400).json({message: "bad request!"});
-  })
-});
+// -------- Authentication ---------
 
-// Read user
-router.get("/", fakeAuthen, (req, res) => {
-  const uid = req.body.username;
-  User.findById(uid).then((result) => {
-    if (!result) {
-      res.status(404).json({message: "not found!"});
-    } else {
-      res.status(200).json({user: result})
-    }
-  }).catch((err) => {
-    console.log(err);
-    res.status(400).json({message: "bad request!"});
+// Register & Create user
+router.post("/register", (req, res) => {
+  const { email, username, password, address } = req.body;
+  const user = new User({ email, username, address});
+  User.register(user, password)
+  .then((result) => {
+    res.status(201).json(user);
+  }).catch((e) => {
+    res.status(400).json(e);
   });
 });
 
+// Login
+router.post("/login", passport.authenticate('local'), (req, res) => {
+  res.status(200).json(req.user);
+});
+
+// Logout
+
+
+// -------- Profile Page ---------
+
+// Note: no need read user in server side
+//      when user logged in, an entire user object has already been sent back
+
+// router.get("/profile", isLoggedIn, (req, res) => {
+//   const uid = req.body.username;
+//   User.findById(uid).then((result) => {
+//     if (!result) {
+//       res.status(404).json({message: "not found!"});
+//     } else {
+//       res.status(200).json({user: result})
+//     }
+//   }).catch((err) => {
+//     console.log(err);
+//     res.status(400).json({message: "bad request!"});
+//   });
+// });
+
 // Update user
-router.put("/", fakeAuthen, (req, res) => {
-  const uid = req.body.username;
-  const updatedUser = {
-    _id: uid,
-    email: req.body.email,
-    address: req.body.address
-  }
-  User.findByIdAndUpdate(uid, updatedUser, {new: true}).then((updated) => {
-    if (!updated) {
-      res.status(404).json({message: "not found!"});
-    } else {
-      res.status(200).json({user: updated});
-    }
+router.put("/", isLoggedIn, (req, res) => {
+  User.findOneAndUpdate({username: req.body.username}, req.body, {new: true})
+  .then((updatedUser) => {
+    res.status(200).json(updatedUser);
   }).catch((err) => {
-    console.log(err);
-    res.status(400).json({message: "bad request!"});
+    res.status(400).json(err);
   });
 });
 
 // Delete user
-router.delete("/", fakeAuthen, (req, res) => {
-  const uid = req.body.username;
-  User.findByIdAndDelete(uid);
-  res.status(200).json({message: "deleted!"});
+router.delete("/", isLoggedIn, (req, res) => {
+  User.deleteOne({username: req.body.username})
+  .then((result) => {
+    res.status(200).json({message: "user is deleted"});
+  }).catch((err) => {
+    res.status(400).json(err);
+  });
 });
 
 module.exports = router;
