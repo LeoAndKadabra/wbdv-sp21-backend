@@ -7,7 +7,7 @@ const userRoutes = require("./routes/user");
 const commentRoutes = require("./routes/comment");
 const movieRoutes = require("./routes/movie");
 
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 const methodOverride = require("method-override");
 
 mongoose.connect('mongodb://localhost:27017/movieSeeker', {
@@ -22,10 +22,42 @@ mongoose.connect('mongodb://localhost:27017/movieSeeker', {
   console.log(err)
 });
 
-// server Apache console logger, will log basic information about requests
+// ------------ body parser
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
+
+// ------------- authentication
+const User = require('./models/User');
+const session = require('express-session');
+const passport = require('passport');
+
+const sessionConfig = {
+  name: 'session',
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    // secure: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
+}
+
+const LocalStrategy = require('passport-local');
+
+app.use(session(sessionConfig));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+// server Apache console logger, will log basic information about requests
+
 
 app.use(morgan('common'));
 app.use("/users", userRoutes);

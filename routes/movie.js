@@ -38,6 +38,7 @@ router.get("/:mid", (req, res) => {
 // });
 
 router.post("/:mid", (req, res) => {
+  console.log(req.body);
   Movie.findById(req.params.mid).then((movie) => {
     const newReview = {
       comment: req.body.comment,
