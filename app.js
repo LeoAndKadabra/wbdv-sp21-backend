@@ -61,7 +61,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(morgan('common'));
 app.use("/users", userRoutes);
-app.use("/comments", commentRoutes);
+app.use("/reviews", commentRoutes);
 app.use("/movies", movieRoutes);
 
 app.get("/", (req, res) => {
