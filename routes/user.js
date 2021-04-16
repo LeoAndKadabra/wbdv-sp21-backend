@@ -14,6 +14,7 @@ const fakeAuthen = function(req, res, next) {
 // Register & Create user
 router.post("/register", (req, res) => {
   const { email, username, password, address } = req.body;
+  console.log(req.body);
   const user = new User({ email, username, address});
   User.register(user, password)
   .then((result) => {
