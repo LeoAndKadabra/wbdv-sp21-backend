@@ -40,20 +40,10 @@ router.get("/logout", isLoggedIn, (req, res) => {
 
 // Note: no need read user in server side
 //      when user logged in, an entire user object has already been sent back
-
-// router.get("/profile", isLoggedIn, (req, res) => {
-//   const uid = req.body.username;
-//   User.findById(uid).then((result) => {
-//     if (!result) {
-//       res.status(404).json({message: "not found!"});
-//     } else {
-//       res.status(200).json({user: result})
-//     }
-//   }).catch((err) => {
-//     console.log(err);
-//     res.status(400).json({message: "bad request!"});
-//   });
-// });
+router.get("/profile", isLoggedIn, (req, res) => {
+  const profile = req.user;
+  res.status(200).json(profile);
+});
 
 // Update user
 router.put("/", isLoggedIn, (req, res) => {
