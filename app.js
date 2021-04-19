@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 
 const userRoutes = require("./routes/user");
 const commentRoutes = require("./routes/comment");
-const movieRoutes = require("./routes/movie");
 
 const bodyParser = require('body-parser');
 const methodOverride = require("method-override");
@@ -23,7 +22,7 @@ mongoose.connect('mongodb://localhost:27017/movieSeeker', {
 });
 
 app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3001');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.header('Access-Control-Allow-Headers',
       'Content-Type, X-Requested-With, Origin');
   res.header('Access-Control-Allow-Methods',
@@ -68,11 +67,9 @@ passport.deserializeUser(User.deserializeUser());
 
 // server Apache console logger, will log basic information about requests
 
-
 app.use(morgan('common'));
 app.use("/users", userRoutes);
-app.use("/reviews", commentRoutes);
-app.use("/movies", movieRoutes);
+app.use("/comments", commentRoutes);
 
 app.get("/", (req, res) => {
   res.send("You hit the general GET route!");

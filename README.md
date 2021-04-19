@@ -28,6 +28,6 @@ Current default domain and port:
   "address": "center of the universe"
 }
 ```
-## Review System
+## Comment System
 ### Routes
 `http://domain:port/reviews/*`

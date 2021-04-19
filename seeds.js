@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('./models/User');
 const Movie = require('./models/Movie');
-const Review = require('./models/Review');
+const Review = require('./models/Comment');
 
 mongoose.connect('mongodb://localhost:27017/movieSeeker', {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => {
