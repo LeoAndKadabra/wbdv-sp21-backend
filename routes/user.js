@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/User");
 const passport = require("passport");
 const isLoggedIn = require("../middleware");
+var session = require('express-session')
 
 const fakeAuthen = function(req, res, next) {
   console.log("during authentication");
@@ -26,6 +27,9 @@ router.post("/register", (req, res) => {
 
 // Login
 router.post("/login", passport.authenticate('local'), (req, res) => {
+  req.session["profile"] = req.user
+  console.log(req.session["profile"])
+
   res.status(200).json(req.user);
 });
 
@@ -40,8 +44,9 @@ router.get("/logout", isLoggedIn, (req, res) => {
 
 // Note: no need read user in server side
 //      when user logged in, an entire user object has already been sent back
-router.get("/profile", isLoggedIn, (req, res) => {
-  const profile = req.user;
+router.get("/profile", (req, res) => {
+  const profile = req.session["profile"];
+  console.log(profile)
   res.status(200).json(profile);
 });
 
