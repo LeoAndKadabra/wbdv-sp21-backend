@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
     res.status(400).json({message: "need movieId or userId"});
   }
   if (username || movieId) {
-    Comment.findOne(filter)
+    Comment.find(filter)
     .then((result) => {
       res.status(200).json(result);
     })
@@ -34,6 +34,15 @@ router.post("/", (req, res) => {
   Comment.create({...req.body, createdTime: timestamp})
   .then(comment => res.status(201).json(comment))
   .catch(e => res.status(400).json(e));
+});
+
+router.delete("/", (req, res) => {
+  Comment.deleteOne({_id: req.body})
+  .then((result) => {
+    res.status(200).json({message: "comment is deleted"});
+  }).catch((err) => {
+    res.status(400).json(err);
+  });
 });
 
 module.exports = router;
