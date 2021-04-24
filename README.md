@@ -6,17 +6,19 @@ Current default domain and port:
 
 `localhost:8080`
 ### Authentication Routes
-#### Register & Create User (method=POST)
+#### Register & Create User (POST)
 `http://domain:port/users/register`
-#### Login & Read User (method=POST)
+#### Login & Read User (POST)
 `http://domain:port/users/login`
-#### Logout User (method=GET)
+#### Logout User (GET)
 `http://domain:port/users/logout`
 
 ### Profile Page Routes
-#### Update User (method=PUT)
+#### Visite User Profile (GET)
+`http://domain:port/users/profile?username=<username>`
+#### Update User (PUT)
 `http://domain:port/users`
-#### Delete User (method=DELETE)
+#### Delete User (DELETE)
 `http://domain:port/users`
 
 #### User Schema
@@ -30,4 +32,18 @@ Current default domain and port:
 ```
 ## Comment System
 ### Routes
-`http://domain:port/reviews/*`
+#### Get Comments (GET)
+`http://domain:port/comments?username=<username>`
+or
+`http://domain:port/comments?movieId=<omdbId>`
+#### Create a new comment (POST)
+`http://domain:port/comments`
+#### Delete a comment (DELETE)
+`http://domain:port/comments`
+*request body should be like*
+
+```json
+{
+  "_id": "<comment id>"
+}
+```
