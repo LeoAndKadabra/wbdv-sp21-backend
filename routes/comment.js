@@ -4,33 +4,29 @@ const Comment = require("../models/Comment");
 
 // get comments by movieId
 router.get("/", (req, res) => {
-  const movieId = req.query.movieId;
-  const username = req.query.username;
   let filter = {};
-  if (username) {
-    // res.status(200).json({message: "search by username: " + username})
-    filter = {username: username};
-  } else if (movieId) {
-    // res.status(200).json({message: "search by movieId: " + movieId})
-    filter = {movieId: movieId};
-  } else {
-    res.status(400).json({message: "need movieId or userId"});
+  let limit = req.query.limit ? parseInt(req.query.limit) : Number.MAX_SAFE_INTEGER;
+  if (req.query.movieId) {
+    filter.movieId = req.query.movieId;
   }
-  if (username || movieId) {
-    Comment.find(filter)
-    .then((result) => {
-      res.status(200).json(result);
-    })
-    .catch((e) => {
-      res.status(404).json(e);
-    })
+  if (req.query.username) {
+    filter.username = req.query.username;
   }
+  Comment.find(filter).sort({createdTime: -1}).limit(limit)
+  .then((result) => {
+    res.status(200).json(result);
+  })
+  .catch((e) => {
+    res.status(404).json(e);
+  })
 });
 
 router.post("/", (req, res) => {
   let date = new Date(Date.now());
-  let timestamp = date.getHours() + ":" + date.getMinutes() +
-      "-" + (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+  let timestamp = date.getFullYear() + "-" +
+      date.getMonth() + "-" +
+      date.getDate() + "-" +
+      date.getHours() + ":" + date.getMinutes();
   Comment.create({...req.body, createdTime: timestamp})
   .then(comment => res.status(201).json(comment))
   .catch(e => res.status(400).json(e));
