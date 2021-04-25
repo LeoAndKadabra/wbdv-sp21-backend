@@ -38,8 +38,8 @@ router.get("/logout", isLoggedIn, (req, res) => {
 
 // Note: no need read user in server side
 //      when user logged in, an entire user object has already been sent back
-router.get("/profile", (req, res) => {
-  const username = req.query.username;
+router.get("/profile/:username", (req, res) => {
+  const username = req.params.username;
   if (!username) {
     console.log("returning current user")
     console.log(req.session["profile"])
