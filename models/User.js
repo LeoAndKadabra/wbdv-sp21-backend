@@ -13,6 +13,18 @@ const UserSchema = new Schema({
   },
   address: {
     type: String
+  },
+  role: {
+    type: String,
+  },
+  gender: {
+    type: String
+  },
+  favGenre: {
+    type: String
+  },
+  favMovie: {
+    type: String
   }
 });
 // passport includes username and password fields, it also make sure no duplicate user
