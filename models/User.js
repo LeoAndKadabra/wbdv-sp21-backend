@@ -25,6 +25,9 @@ const UserSchema = new Schema({
   },
   favMovie: {
     type: String
+  },
+  image: {
+    type: String
   }
 });
 // passport includes username and password fields, it also make sure no duplicate user
