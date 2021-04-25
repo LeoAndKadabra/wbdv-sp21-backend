@@ -40,16 +40,6 @@ router.get("/logout", isLoggedIn, (req, res) => {
 //      when user logged in, an entire user object has already been sent back
 router.get("/profile/:username", (req, res) => {
   const username = req.params.username;
-  if (!username) {
-    console.log("returning current user")
-    console.log(req.session["profile"])
-    if (!req.session["profile"])
-      return res.status(202).json({
-        username: ""
-      })
-    return res.status(200).json(req.session["profile"]);
-  }
-
   if (req.user && username === req.user.username) {
     const profile = req.session["profile"];
     console.log("returning current user")
@@ -65,6 +55,16 @@ router.get("/profile/:username", (req, res) => {
       }}
     ).catch(e => res.status(404).json(e))
   }
+});
+
+router.get("/profile", (req, res) => {
+  console.log("returning current user")
+  console.log(req.session["profile"])
+  if (!req.session["profile"])
+    return res.status(202).json({
+      username: ""
+    })
+  return res.status(200).json(req.session["profile"]);
 });
 
 // Update user
