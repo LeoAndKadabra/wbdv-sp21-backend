@@ -9,7 +9,9 @@ const commentRoutes = require("./routes/comment");
 const bodyParser = require('body-parser');
 const methodOverride = require("method-override");
 
-mongoose.connect('mongodb://localhost:27017/movieSeeker', {
+require('dotenv').config()
+const dbUrl = process.env.DB_URL
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
