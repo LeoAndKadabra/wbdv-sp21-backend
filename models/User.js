@@ -14,7 +14,7 @@ const UserSchema = new Schema({
   address: {
     type: String
   },
-  role: {
+  isAdmin: {
     type: String,
   },
   gender: {
