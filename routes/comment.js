@@ -27,7 +27,7 @@ router.post("/", (req, res) => {
       date.getMonth() + "-" +
       date.getDate() + "-" +
       date.getHours() + ":" + date.getMinutes();
-  Comment.create({...req.body, createdTime: timestamp})
+  Comment.create({...req.body, createdTime: timestamp, likedUsers: []})
   .then(comment => res.status(201).json(comment))
   .catch(e => res.status(400).json(e));
 });
