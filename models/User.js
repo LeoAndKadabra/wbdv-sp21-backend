@@ -14,9 +14,6 @@ const UserSchema = new Schema({
   address: {
     type: String
   },
-  role: {
-    type: String,
-  },
   gender: {
     type: String
   },
