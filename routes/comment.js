@@ -32,6 +32,15 @@ router.post("/", (req, res) => {
   .catch(e => res.status(400).json(e));
 });
 
+router.put("/", (req, res) => {
+  Comment.findOneAndUpdate({_id: req.body._id}, req.body, {new: true})
+  .then((updated) => {
+    res.status(200).json(updated);
+  }).catch((err) => {
+    res.status(400).json(err);
+  });
+});
+
 router.delete("/", (req, res) => {
   Comment.deleteOne({_id: req.body})
   .then((result) => {
