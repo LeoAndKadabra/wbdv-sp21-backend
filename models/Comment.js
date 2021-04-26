@@ -22,7 +22,8 @@ const commentSchema = new Schema({
   createdTime: {
     type: String,
     required: true
-  }
+  },
+  likedUsers: [String]
 });
 
 const Comment = mongoose.model('Comment', commentSchema);
