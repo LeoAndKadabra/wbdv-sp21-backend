@@ -30,8 +30,11 @@ router.post("/login", passport.authenticate('local'), (req, res) => {
 // Logout
 router.get("/logout", isLoggedIn, (req, res) => {
   req.logout();
-  //res.status(200).json({message: "successful logged out"});
-  return req.session
+  req.session.destroy();
+
+  return res.status(200).json({
+    username: ""
+  });
 });
 
 
