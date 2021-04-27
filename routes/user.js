@@ -11,9 +11,9 @@ const session = require('express-session')
 router.post("/register", (req, res) => {
   const { email, username, password, address, isAdmin, gender, favGenre, favMovie, image} = req.body;
   console.log(req.body);
-  const user = new User({ email, username, address, isAdmin, gender, favGenre, favMovie, image, likedComments: []});
+  const user = new User({ email, username, address, isAdmin, gender, favGenre, favMovie, image, likedComments: [], numberDeleted: 0});
   User.register(user, password)
-  .then((result) => {
+  .then(() => {
     res.status(201).json(user);
   }).catch((e) => {
     res.status(400).json(e);
