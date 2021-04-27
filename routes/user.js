@@ -75,6 +75,11 @@ router.get("/profile", (req, res) => {
 router.put("/", isLoggedIn, (req, res) => {
   User.findOneAndUpdate({username: req.body.username}, req.body, {new: true})
   .then((updatedUser) => {
+    console.log("updateing user:")
+    console.log(updatedUser)
+    if (updatedUser.username === req.session["profile"].username) {
+      req.session["profile"] = updatedUser
+    }
     res.status(200).json(updatedUser);
   }).catch((err) => {
     res.status(400).json(err);

@@ -28,13 +28,23 @@ router.post("/", (req, res) => {
       date.getDate() + "-" +
       date.getHours() + ":" + date.getMinutes();
   Comment.create({...req.body, createdTime: timestamp, likedUsers: []})
-  .then(comment => res.status(201).json(comment))
+  .then(comment =>
+    {
+      console.log("creating comment:")
+      console.log(comment)
+      res.status(201).json(comment)
+    })
   .catch(e => res.status(400).json(e));
 });
 
 router.put("/", (req, res) => {
+  console.log("receiving update comment:")
+  console.log(req.body)
+
   Comment.findOneAndUpdate({_id: req.body._id}, req.body, {new: true})
   .then((updated) => {
+    console.log("updaing comment:")
+    console.log(updated)
     res.status(200).json(updated);
   }).catch((err) => {
     res.status(400).json(err);
