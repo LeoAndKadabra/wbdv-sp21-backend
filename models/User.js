@@ -27,9 +27,12 @@ const UserSchema = new Schema({
     type: String
   },
   isAdmin: {
-    type: Boolean,
+    type: Boolean
   },
-  likedComments: [String]
+  likedComments: [String],
+  numberDeleted: {
+    type: Number
+  }
 });
 // passport includes username and password fields, it also make sure no duplicate user
 UserSchema.plugin(passportLocalMongoose);
